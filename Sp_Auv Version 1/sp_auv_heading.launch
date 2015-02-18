@@ -1,0 +1,25 @@
+<launch>
+  <node pkg="sp_auv" type="sp_auv_depth" name="sp_auv_depth" respawn="false">
+     <param name="port" type="str" value="/dev/ttyUSB01"/>
+     <param name="baud" type="str" value="9600" />
+  </node>
+  <node pkg="SpartonCompass" type="SpartonCompass.py" name="SpartonCompass" respawn="true">
+    <param name="port" value="/dev/ttyUSB0" />
+    <param name="baud" value="19200" />
+    <param name="frequency" value="5" />
+  </node>
+  <node pkg="rosserial_python" type="serial_node.py" name="serial_node" output="screen">
+        <param name="port" value="/dev/ttyACM0" />
+  </node>
+  <node pkg="sp_auv" type="sp_auv_heading_controller" name="sp_auv_heading_controller" respawn="false" output="screen">
+     <param name="DepthTolerance" type="double" value="0.3" />
+     <param name="DepthKP" type="double" value="12" />
+     <param name="HeadingKP" type="double" value="30" />
+  </node>
+  <node pkg="sp_auv" type="sp_auv_statemachine" name="sp_auv_statemachine" respawn="false" output="screen">
+     <param name="DepthTolerance" type="double" value="0.1" />
+     <param name="CamHeadKP" type="double" value="0.1" />
+     <param name="SetupTime" type="double" value="10.0" />
+     <param name="TimeOut" type="double" value="500.0" />
+  </node>  
+</launch>
